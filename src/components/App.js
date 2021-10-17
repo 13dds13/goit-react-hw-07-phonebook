@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContactForm from "./contactForm/ContactForm";
 import Filter from "./filter/Filter";
 import ContactsList from "./contactsList/ContactsList";
 import styles from "./container/Container.module.css";
 import dataUI from "../data/dataUI.json";
-import addContact from "../redux/operations/contactsOperations";
+import {
+  addContact,
+  fetchContacts,
+} from "../redux/operations/contactsOperations";
 import { getContactsData } from "../redux/contacts/contactsSelectors/contactsSelectors";
 
 const {
@@ -20,8 +23,13 @@ const {
 } = dataUI;
 
 const App = () => {
-  const contactsDataToRender = useSelector(getContactsData);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
+  const contactsDataToRender = useSelector(getContactsData);
 
   const addNewContact = (name, number) =>
     dispatch(addContact({ name, number }));

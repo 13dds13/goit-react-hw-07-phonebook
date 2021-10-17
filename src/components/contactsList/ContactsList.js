@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import styles from "./ContactsList.module.css";
-import { removeContact } from "../../redux/contacts/contactsActions/contactsActions";
+import { removeContact } from "../../redux/operations/contactsOperations";
 
 const { listWrap, listItem, name, number, btn } = styles;
 
@@ -25,7 +25,7 @@ const ContactsList = ({ contactsDataToRender, dataUI }) => {
             <button
               className={btn}
               type="button"
-              onClick={() => dispatch(removeContact(item.name))}
+              onClick={() => dispatch(removeContact(item.id))}
             >
               {deleteBtn}
             </button>

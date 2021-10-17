@@ -1,16 +1,37 @@
 import {
+  fetchContactsRequest,
+  fetchContactsSuccess,
+  fetchContactsError,
   addContactRequest,
   addContactSuccess,
   addContactError,
+  removeContactRequest,
+  removeContactSuccess,
+  removeContactError,
 } from "../contacts/contactsActions/contactsActions";
 import axios from "axios";
 import { BASE_URL } from "../../data/firebase.json";
 
-const addContact = (data) => (dispatch) => {
+export const fetchContacts = () => (dispatch) => {
+  dispatch(fetchContactsRequest());
+  axios(`${BASE_URL}.json`)
+    .then(({ data }) => {
+      if (!data) return;
+      const preparadeData = Object.keys(data).map((key) => ({
+        ...data[key],
+        id: key,
+      }));
+      dispatch(fetchContactsSuccess(preparadeData));
+    })
+    .catch((error) => dispatch(fetchContactsError(error)))
+    .finally(dispatch(fetchContactsRequest()));
+};
+
+export const addContact = (data) => (dispatch) => {
   const isAlreadyInContacts = dispatch(addContactRequest(data));
   if (isAlreadyInContacts) return;
   axios
-    .post(BASE_URL, data)
+    .post(`${BASE_URL}.json`, data)
     .then((res) => {
       const id = res.data.name;
       dispatch(addContactSuccess({ ...data, id }));
@@ -19,4 +40,12 @@ const addContact = (data) => (dispatch) => {
     .finally(dispatch(addContactRequest(data)));
 };
 
-export default addContact;
+export const removeContact = (id) => (dispatch) => {
+  dispatch(removeContactRequest());
+
+  axios
+    .delete(`${BASE_URL}/${id}.json`)
+    .then(dispatch(removeContactSuccess(id)))
+    .catch((error) => dispatch(removeContactError(error)))
+    .finally(dispatch(removeContactRequest()));
+};
