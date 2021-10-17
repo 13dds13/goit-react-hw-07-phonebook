@@ -4,7 +4,8 @@ import middlewarePreventContactsDuplication from "./middlewares/middlewares";
 
 const store = configureStore({
   reducer: { contacts: contactsReduser },
-  middleware: [middlewarePreventContactsDuplication],
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(middlewarePreventContactsDuplication),
 });
 
 export default store;

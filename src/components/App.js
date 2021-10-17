@@ -5,7 +5,7 @@ import Filter from "./filter/Filter";
 import ContactsList from "./contactsList/ContactsList";
 import styles from "./container/Container.module.css";
 import dataUI from "../data/dataUI.json";
-import { addContact } from "../redux/contacts/contactsActions/contactsActions";
+import addContact from "../redux/operations/contactsOperations";
 import { getContactsData } from "../redux/contacts/contactsSelectors/contactsSelectors";
 
 const {
@@ -21,10 +21,10 @@ const {
 
 const App = () => {
   const contactsDataToRender = useSelector(getContactsData);
-
   const dispatch = useDispatch();
 
-  const addNewContact = (name, number) => dispatch(addContact(name, number));
+  const addNewContact = (name, number) =>
+    dispatch(addContact({ name, number }));
 
   const { container, title } = styles;
 
