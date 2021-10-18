@@ -29,7 +29,7 @@ const ContactForm = ({ isLoading }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addContact(name, number));
+    dispatch(addContact({ name, number }));
   };
 
   const { inputName, inputTel, submitBtn } = dataUI;
