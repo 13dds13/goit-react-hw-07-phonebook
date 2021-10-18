@@ -3,8 +3,9 @@ import { useSelector } from "react-redux";
 import { getContactsData } from "../../redux/contacts/contactsSelectors/contactsSelectors";
 import dataUI from "../../data/dataUI.json";
 import styles from "./ContactsList.module.css";
-import ContactsListItem from "./ContactsListItem/ContactsListItem";
+import ContactsListItem from "./contactsListItem/ContactsListItem";
 import { removeContact } from "../../redux/contacts/contactsOperations/contactsOperations";
+import Notification from "../notification/Notification";
 
 const ContactsList = () => {
   const { title, contacts } = useSelector(getContactsData);
@@ -12,7 +13,7 @@ const ContactsList = () => {
 
   return contacts.length ? (
     <>
-      <p>{title}</p>
+      <Notification title={title} />
       <ul className={styles.listWrap}>
         {contacts.map((contact) => (
           <ContactsListItem

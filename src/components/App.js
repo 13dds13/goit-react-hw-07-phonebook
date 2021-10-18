@@ -10,9 +10,10 @@ import {
   getFilter,
   getIsLoading,
 } from "../redux/contacts/contactsSelectors/contactsSelectors";
-import Title from "./Title/Title";
+import Title from "./title/Title";
+import Notification from "./notification/Notification";
 
-const { titleMain, titleSecondary } = dataUI;
+const { titleMain, titleSecondary, isLoadingNow } = dataUI;
 
 const App = () => {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const App = () => {
       <ContactForm isLoading={isLoading} />
       <Title title={titleSecondary} />
       <Filter filter={filter} />
-      {isLoading ? <p>Loading...</p> : <ContactsList />}
+      {isLoading ? <Notification title={isLoadingNow} /> : <ContactsList />}
     </div>
   );
 };
