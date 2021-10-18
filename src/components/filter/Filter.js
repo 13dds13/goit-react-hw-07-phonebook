@@ -1,13 +1,11 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { nanoid } from "nanoid";
 import PropTypes from "prop-types";
 import { wrap } from "./Filter.module.css";
 import { setFilter } from "../../redux/contacts/contactsActions/contactsActions";
-import { getFilter } from "../../redux/contacts/contactsSelectors/contactsSelectors";
 
-const Filter = ({ inputSearch }) => {
-  const filter = useSelector(getFilter);
+const Filter = ({ filter, inputSearch }) => {
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -36,6 +34,7 @@ const Filter = ({ inputSearch }) => {
 };
 
 Filter.propTypes = {
+  filter: PropTypes.string,
   inputSearch: PropTypes.string.isRequired,
 };
 

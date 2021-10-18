@@ -8,9 +8,9 @@ import {
   removeContactRequest,
   removeContactSuccess,
   removeContactError,
-} from "../contacts/contactsActions/contactsActions";
+} from "../contactsActions/contactsActions";
 import axios from "axios";
-import { BASE_URL } from "../../data/firebase.json";
+import { BASE_URL } from "../../../data/firebase.json";
 
 export const fetchContacts = () => (dispatch) => {
   dispatch(fetchContactsRequest());
@@ -23,8 +23,7 @@ export const fetchContacts = () => (dispatch) => {
       }));
       dispatch(fetchContactsSuccess(preparadeData));
     })
-    .catch((error) => dispatch(fetchContactsError(error)))
-    .finally(dispatch(fetchContactsRequest()));
+    .catch((error) => dispatch(fetchContactsError(error)));
 };
 
 export const addContact = (data) => (dispatch) => {
@@ -36,8 +35,7 @@ export const addContact = (data) => (dispatch) => {
       const id = res.data.name;
       dispatch(addContactSuccess({ ...data, id }));
     })
-    .catch((error) => dispatch(addContactError(error)))
-    .finally(dispatch(addContactRequest(data)));
+    .catch((error) => dispatch(addContactError(error)));
 };
 
 export const removeContact = (id) => (dispatch) => {
@@ -46,6 +44,5 @@ export const removeContact = (id) => (dispatch) => {
   axios
     .delete(`${BASE_URL}/${id}.json`)
     .then(dispatch(removeContactSuccess(id)))
-    .catch((error) => dispatch(removeContactError(error)))
-    .finally(dispatch(removeContactRequest()));
+    .catch((error) => dispatch(removeContactError(error)));
 };

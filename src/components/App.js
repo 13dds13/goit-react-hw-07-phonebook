@@ -8,8 +8,13 @@ import dataUI from "../data/dataUI.json";
 import {
   addContact,
   fetchContacts,
-} from "../redux/operations/contactsOperations";
-import { getContactsData } from "../redux/contacts/contactsSelectors/contactsSelectors";
+} from "../redux/contacts/contactsOperations/contactsOperations";
+import {
+  getContactsData,
+  getFilter,
+  getIsLoading,
+} from "../redux/contacts/contactsSelectors/contactsSelectors";
+import Title from "./Title/Title";
 
 const {
   titleMain,
@@ -24,6 +29,8 @@ const {
 
 const App = () => {
   const dispatch = useDispatch();
+  const filter = useSelector(getFilter);
+  const isLoading = useSelector(getIsLoading);
 
   useEffect(() => {
     dispatch(fetchContacts());
@@ -34,25 +41,24 @@ const App = () => {
   const addNewContact = (name, number) =>
     dispatch(addContact({ name, number }));
 
-  const { container, title } = styles;
-
   return (
-    <div className={container}>
-      <h2 className={title}>{titleMain}</h2>
-
+    <div className={styles.container}>
+      <Title title={titleMain} />
       <ContactForm
         dataUI={{ inputName, inputTel, submitBtn }}
         addNewContact={addNewContact}
+        isLoading={isLoading}
       />
-
-      <h2 className={title}>{titleSecondary}</h2>
-
-      <Filter inputSearch={inputSearch} />
-
-      <ContactsList
-        contactsDataToRender={contactsDataToRender}
-        dataUI={{ deleteBtn, noDataToRender }}
-      />
+      <Title title={titleSecondary} />
+      <Filter inputSearch={inputSearch} filter={filter} />
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <ContactsList
+          contactsDataToRender={contactsDataToRender}
+          dataUI={{ deleteBtn, noDataToRender }}
+        />
+      )}
     </div>
   );
 };

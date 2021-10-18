@@ -6,7 +6,7 @@ import { FORM_INITIAL_DATA } from "../../data/initialData.json";
 import { form, btn, input } from "./ContactForm.module.css";
 import { getContacts } from "../../redux/contacts/contactsSelectors/contactsSelectors";
 
-const ContactForm = ({ addNewContact, dataUI }) => {
+const ContactForm = ({ addNewContact, dataUI, isLoading }) => {
   const contacts = useSelector(getContacts);
   const [state, setState] = useState({ ...FORM_INITIAL_DATA });
 
@@ -59,7 +59,7 @@ const ContactForm = ({ addNewContact, dataUI }) => {
         onChange={handleChange}
         value={number}
       />
-      <button className={btn} type="submit">
+      <button className={btn} type="submit" disabled={isLoading}>
         {submitBtn}
       </button>
     </form>
