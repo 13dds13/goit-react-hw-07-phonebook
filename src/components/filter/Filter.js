@@ -2,10 +2,11 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { nanoid } from "nanoid";
 import PropTypes from "prop-types";
+import { inputSearch } from "../../data/dataUI.json";
 import { wrap } from "./Filter.module.css";
 import { setFilter } from "../../redux/contacts/contactsActions/contactsActions";
 
-const Filter = ({ filter, inputSearch }) => {
+const Filter = ({ filter }) => {
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -35,7 +36,6 @@ const Filter = ({ filter, inputSearch }) => {
 
 Filter.propTypes = {
   filter: PropTypes.string,
-  inputSearch: PropTypes.string.isRequired,
 };
 
 export default Filter;

@@ -1,12 +1,14 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import { getContactsData } from "../../redux/contacts/contactsSelectors/contactsSelectors";
+import dataUI from "../../data/dataUI.json";
 import styles from "./ContactsList.module.css";
 import ContactsListItem from "./ContactsListItem/ContactsListItem";
 import { removeContact } from "../../redux/contacts/contactsOperations/contactsOperations";
 
-const ContactsList = ({ contactsDataToRender, dataUI }) => {
+const ContactsList = () => {
+  const { title, contacts } = useSelector(getContactsData);
   const { deleteBtn, noDataToRender } = dataUI;
-  const { title, contacts } = contactsDataToRender;
 
   return contacts.length ? (
     <>
@@ -26,17 +28,6 @@ const ContactsList = ({ contactsDataToRender, dataUI }) => {
   ) : (
     <p>{noDataToRender}</p>
   );
-};
-
-ContactsList.propTypes = {
-  contactsDataToRender: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    contacts: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }).isRequired,
-  dataUI: PropTypes.shape({
-    noDataToRender: PropTypes.string.isRequired,
-    deleteBtn: PropTypes.string,
-  }).isRequired,
 };
 
 export default ContactsList;

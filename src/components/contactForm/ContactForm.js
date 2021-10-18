@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { nanoid } from "nanoid";
 import PropTypes from "prop-types";
 import { FORM_INITIAL_DATA } from "../../data/initialData.json";
+import dataUI from "../../data/dataUI.json";
+import { addContact } from "../../redux/contacts/contactsOperations/contactsOperations";
 import { form, btn, input } from "./ContactForm.module.css";
 import { getContacts } from "../../redux/contacts/contactsSelectors/contactsSelectors";
 
-const ContactForm = ({ addNewContact, dataUI, isLoading }) => {
+const ContactForm = ({ isLoading }) => {
+  const dispatch = useDispatch();
   const contacts = useSelector(getContacts);
   const [state, setState] = useState({ ...FORM_INITIAL_DATA });
 
@@ -26,7 +29,7 @@ const ContactForm = ({ addNewContact, dataUI, isLoading }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addNewContact(name, number);
+    dispatch(addContact(name, number));
   };
 
   const { inputName, inputTel, submitBtn } = dataUI;
@@ -67,12 +70,7 @@ const ContactForm = ({ addNewContact, dataUI, isLoading }) => {
 };
 
 ContactForm.propTypes = {
-  addNewContact: PropTypes.func.isRequired,
-  dataUI: PropTypes.shape({
-    inputName: PropTypes.string.isRequired,
-    inputTel: PropTypes.string.isRequired,
-    submitBtn: PropTypes.string.isRequired,
-  }).isRequired,
+  isLoading: PropTypes.bool,
 };
 
 export default ContactForm;
