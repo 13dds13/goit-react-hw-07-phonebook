@@ -1,41 +1,28 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { nanoid } from "nanoid";
-import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
 import { inputSearch } from "../../data/dataUI.json";
 import { wrap } from "./Filter.module.css";
 import { setFilter } from "../../redux/contacts/contactsActions/contactsActions";
+import { getFilter } from "../../redux/contacts/contactsSelectors/contactsSelectors";
+import FilterInputAndLabel from "../inputAndLabel/FilterInputAndLabel";
 
-const Filter = ({ filter }) => {
+const Filter = () => {
   const dispatch = useDispatch();
+  const filter = useSelector(getFilter);
 
-  const handleChange = (e) => {
-    const { value } = e.target;
+  const handleChange = (value) => {
     dispatch(setFilter(value));
   };
 
-  const filterInputId = nanoid();
-
   return (
     <div className={wrap}>
-      <label htmlFor={filterInputId}>{inputSearch}</label>
-      <input
-        id={filterInputId}
-        type="text"
-        name="filter"
-        pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-        title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
-        required
-        autoComplete="off"
-        onChange={handleChange}
-        value={filter}
+      <FilterInputAndLabel
+        filter={filter}
+        handleChange={handleChange}
+        inputSearch={inputSearch}
       />
     </div>
   );
-};
-
-Filter.propTypes = {
-  filter: PropTypes.string,
 };
 
 export default Filter;

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { nanoid } from "nanoid";
+import { nanoid } from "@reduxjs/toolkit";
 import PropTypes from "prop-types";
 import { FORM_INITIAL_DATA } from "../../data/initialData.json";
 import dataUI from "../../data/dataUI.json";
 import { addContact } from "../../redux/contacts/contactsOperations/contactsOperations";
 import { form, btn, input } from "./ContactForm.module.css";
 import { getContacts } from "../../redux/contacts/contactsSelectors/contactsSelectors";
+import FormInputAndLabelName from "../inputAndLabel/formInputAndLabel/FormInputAndLabelName";
+import FormInputAndLabelNumber from "../inputAndLabel/formInputAndLabel/FormInputAndLabelNumber";
 
 const ContactForm = ({ isLoading }) => {
   const dispatch = useDispatch();
@@ -22,8 +24,8 @@ const ContactForm = ({ isLoading }) => {
   const inputNameId = nanoid();
   const inputNumberId = nanoid();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = (data) => {
+    const { name, value } = data;
     setState((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -36,31 +38,19 @@ const ContactForm = ({ isLoading }) => {
 
   return (
     <form className={form} onSubmit={handleSubmit}>
-      <label htmlFor={inputNameId}>{inputName}</label>
-      <input
+      <FormInputAndLabelName
+        handleChange={handleChange}
+        name={name}
+        inputNameId={inputNameId}
+        inputLable={inputName}
         className={input}
-        id={inputNameId}
-        type="text"
-        name="name"
-        pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-        title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
-        required
-        autoComplete="off"
-        onChange={handleChange}
-        value={name}
       />
-      <label htmlFor={inputNumberId}>{inputTel}</label>
-      <input
+      <FormInputAndLabelNumber
+        handleChange={handleChange}
+        number={number}
+        inputNumberId={inputNumberId}
+        inputLable={inputTel}
         className={input}
-        id={inputNumberId}
-        type="tel"
-        name="number"
-        pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-        title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
-        required
-        autoComplete="off"
-        onChange={handleChange}
-        value={number}
       />
       <button className={btn} type="submit" disabled={isLoading}>
         {submitBtn}
